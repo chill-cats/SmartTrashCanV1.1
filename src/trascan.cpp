@@ -229,7 +229,7 @@ void checkManuallyOpenButton() {
 	}
 }
 
-int main() {
+void setup() {
 	Serial.begin(115200);
 	Serial1.begin(9600);
 	Serial2.begin(57600);
@@ -244,7 +244,6 @@ int main() {
 	pinMode(RESET_BUTTON, INPUT_PULLUP);
 	pinMode(MANUALLY_OPEN_BUTTON, INPUT_PULLUP);
 	pinMode(DEBUG_MODE_PIN, INPUT_PULLUP);
-
 
 	debouncerResetButton.attach(RESET_BUTTON);
 	debouncerManuallyOpenButton.attach(MANUALLY_OPEN_BUTTON);
@@ -265,20 +264,19 @@ int main() {
 		flag_debug_mode = 1;
 		Serial.println("Activated debug mode");
 	}
-
-	while (1) {
-		checkHand();
-		checkManuallyOpenButton();
-		checkResetButton();
-
-		if (flag_debug_mode) {
-			delay(1000);
-		}
-		if (flag_isFull == 1) {
-			digitalWrite(LOCK_LED, HIGH);
-		} else {
-			digitalWrite(LOCK_LED, LOW);
-		}
-	}
-
 }
+void loop() {
+	checkHand();
+	checkManuallyOpenButton();
+	checkResetButton();
+
+	if (flag_debug_mode) {
+		delay(1000);
+	}
+	if (flag_isFull == 1) {
+		digitalWrite(LOCK_LED, HIGH);
+	} else {
+		digitalWrite(LOCK_LED, LOW);
+	}
+}
+
