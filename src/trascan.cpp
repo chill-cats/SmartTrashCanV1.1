@@ -31,6 +31,7 @@ Bounce debouncerResetButton = Bounce();
 Bounce debouncerManuallyOpenButton = Bounce();
 
 void sendMessage() {
+
 	Serial.println("AT");
 	delay(1000);
 	if (flag_debug_mode) {
@@ -122,7 +123,7 @@ void moveActuator(int action) {
 	}
 }
 void close() {
-	if (flag_isOpenned == 1) {
+	if (flag_isOpenned) {
 		if (!flag_manuallyOpened) {
 			moveActuator(2);
 			if (flag_debug_mode) {
@@ -137,18 +138,21 @@ void close() {
 	}
 }
 void open() {
-	if (flag_isFull == 0) {
-		if (flag_isOpenned == 0) {
+	if (!flag_isFull) {
+		if (!flag_isOpenned) {
 			if (!flag_manuallyOpened) {
 				moveActuator(1);
+				myDFPlayer.play(2);
 				if (flag_debug_mode) {
 					Serial.println("Open the lid");
 				}
 			}
 
 		}
-		myDFPlayer.play(2);
-		Serial.println("Playing sound");
+
+		if (flag_debug_mode) {
+			Serial.println("Playing sound");
+		}
 		flag_isOpenned = 1;
 	} else {
 		myDFPlayer.play(1);
@@ -225,7 +229,7 @@ void checkManuallyOpenButton() {
 	}
 }
 
-void setup() {
+int main() {
 	Serial.begin(115200);
 	Serial1.begin(9600);
 	Serial2.begin(57600);
@@ -240,6 +244,7 @@ void setup() {
 	pinMode(RESET_BUTTON, INPUT_PULLUP);
 	pinMode(MANUALLY_OPEN_BUTTON, INPUT_PULLUP);
 	pinMode(DEBUG_MODE_PIN, INPUT_PULLUP);
+
 
 	debouncerResetButton.attach(RESET_BUTTON);
 	debouncerManuallyOpenButton.attach(MANUALLY_OPEN_BUTTON);
@@ -261,17 +266,19 @@ void setup() {
 		Serial.println("Activated debug mode");
 	}
 
-}
-void loop() {
-	checkHand();
-	checkManuallyOpenButton();
-	checkResetButton();
-	if (flag_debug_mode) {
-		delay(1000);
+	while (1) {
+		checkHand();
+		checkManuallyOpenButton();
+		checkResetButton();
+
+		if (flag_debug_mode) {
+			delay(1000);
+		}
+		if (flag_isFull == 1) {
+			digitalWrite(LOCK_LED, HIGH);
+		} else {
+			digitalWrite(LOCK_LED, LOW);
+		}
 	}
-	if (flag_isFull == 1) {
-		digitalWrite(LOCK_LED, HIGH);
-	} else {
-		digitalWrite(LOCK_LED, LOW);
-	}
+
 }
