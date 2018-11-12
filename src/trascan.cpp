@@ -3,19 +3,19 @@
 #include "NewPing.h"
 #include "Bounce2.h"
 
-static const int TRIG_PIN_HAND = 5;
-static const int ECHO_PIN_HAND = 4;
+static const uint8_t TRIG_PIN_HAND = 5;
+static const uint8_t ECHO_PIN_HAND = 4;
 
-static const int TRIG_PIN_TRASH = 13;
-static const int ECHO_PIN_TRASH = 12;
+static const uint8_t TRIG_PIN_TRASH = 13;
+static const uint8_t ECHO_PIN_TRASH = 12;
 
-static const int HOME_SWITCH_PIN = 11;
-static const int ACTUATOR_PIN_1 = 10;
-static const int ACTUATOR_PIN_2 = 9;
+static const uint8_t HOME_SWITCH_PIN = 11;
+static const uint8_t ACTUATOR_PIN_1 = 10;
+static const uint8_t ACTUATOR_PIN_2 = 9;
 
-static const int LOCK_LED = 2;
-static const int RESET_BUTTON = 3;
-static const int MANUALLY_OPEN_BUTTON = 23;
+static const uint8_t LOCK_LED = 2;
+static const uint8_t RESET_BUTTON = 3;
+static const uint8_t MANUALLY_OPEN_BUTTON = 23;
 
 static const int DEBUG_MODE_PIN = 22;
 
